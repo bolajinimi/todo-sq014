@@ -1,0 +1,26 @@
+name: Node Github CI/CD
+
+on:
+  push:
+    branches:
+      -develop
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+     matrix:
+      node-version:[16.x, 18.x]
+    steps:
+      - uses: action/checkout@v2
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: action/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: yarn install and test
+          run:
+            yarn install
+            yarn test
+          env:
+            CI: true     
